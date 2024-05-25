@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rst-query-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rst-query
+  template:
+    metadata:
+      labels:
+        app: rst-query
+    spec:
+      containers:
+        - name: rst-query
+          image: rst/query
+          imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rst-query-srv
+spec:
+  selector:
+    app: rst-query
+  ports:
+    - name: rst-query
+      protocol: TCP
+      port: 8082
+      targetPort: 8082

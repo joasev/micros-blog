@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rst-events-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rst-events
+  template:
+    metadata:
+      labels:
+        app: rst-events
+    spec:
+      containers:
+        - name: rst-events
+          image: rst/events
+          imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rst-events-srv
+spec:
+  selector:
+    app: rst-events
+  ports:
+    - name: rst-events
+      protocol: TCP
+      port: 8085
+      targetPort: 8085

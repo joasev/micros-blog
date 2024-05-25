@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rst-ingress-srv
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: posts.com
+      http:
+        paths:
+          - path: /posts/create
+            pathType: Prefix
+            backend:
+              service:
+                name: rst-posts-srv
+                port: 
+                  number: 8080
+          - path: /posts
+            pathType: Prefix
+            backend:
+              service:
+                name: rst-query-srv
+                port: 
+                  number: 8082
+          - path: /posts/?(.*)/comments
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: rst-comments-srv
+                port: 
+                  number: 8081

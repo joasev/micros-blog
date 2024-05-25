@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rst-comments-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rst-comments
+  template:
+    metadata:
+      labels:
+        app: rst-comments
+    spec:
+      containers:
+        - name: rst-comments
+          image: rst/comments
+          imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rst-comments-srv
+spec:
+  selector:
+    app: rst-comments
+  ports:
+    - name: rst-comments
+      protocol: TCP
+      port: 8081
+      targetPort: 8081

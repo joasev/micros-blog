@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rst-posts-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rst-posts
+  template:
+    metadata:
+      labels:
+        app: rst-posts
+    spec:
+      containers:
+        - name: rst-posts
+          image: rst/posts
+          imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rst-posts-srv
+spec:
+  selector:
+    app: rst-posts
+  ports:
+    - name: rst-posts
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
