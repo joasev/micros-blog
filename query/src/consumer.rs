@@ -49,7 +49,6 @@ pub async fn run(addr: &str, data: web::Data<AppState>) -> Result<(), Box<dyn st
                 println!("PostCreated event: {:?}", event);
                 if let (id, Some(title)) = (&event.data.id, &event.data.title) {
                     let new_post = Post { id: id.clone(), title: title.clone(), comments: Vec::new() };
-                    //posts.insert(id.clone(), new_post);
                     posts_collection.insert_one(&new_post, None).await?;
                 }
             },
